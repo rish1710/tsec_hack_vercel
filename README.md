@@ -62,15 +62,6 @@ tsec_hacks_finternet/
 cd tsec_hacks_finternet
 cp .env.example backend/.env
 ```
-
-Edit `backend/.env`:
-```env
-FINTERNET_API_KEY=sk_hackathon_3eb5a79c271079186415ba4af695a130
-FINTERNET_BASE_URL=http://localhost:3000
-BACKEND_HOST=0.0.0.0
-BACKEND_PORT=8000
-```
-
 ### Step 2: Start Backend
 
 ```bash
@@ -224,84 +215,6 @@ Example Session (5 minutes):
 - Amount Charged: 5 × $1.50 = $7.50
 - Amount Refunded: $30.00 - $7.50 = $22.50
 - Teacher Paid: $7.50 (instantly via Finternet)
-```
-
-## 🧪 Testing
-
-### Test Balance Check
-```bash
-curl http://localhost:8000/api/wallet/balance
-```
-
-### Test Payment Intent Creation
-```bash
-curl -X POST http://localhost:8000/api/session/start \
-  -H "Content-Type: application/json" \
-  -d '{"amount": "30.00", "rate_per_minute": 1.50, "session_title": "Live Guitar Basics"}'
-```
-
-### View All Sessions (Debug)
-```bash
-curl http://localhost:8000/api/sessions/all
-```
-
-## 📊 Logs
-
-Backend logs every Finternet API call with clear markers:
-
-```
-[FINTERNET] Fetching account balance from: http://localhost:3000/api/v1/payment-intents/account/balance
-[FINTERNET] Balance retrieved successfully
-[FINTERNET] Creating payment intent for amount: 30.00 USD
-[FINTERNET] Payment intent created successfully
-[FINTERNET] Submitting delivery proof for intent: intent_xxx
-[FINTERNET] Delivery proof submitted successfully
-```
-
-## 🔒 Security Notes
-
-- API key is stored in `.env` (not committed)
-- CORS is wide open for MVP (restrict in production)
-- No authentication system (hardcoded users)
-- In-memory storage only (no database)
-
-## 🚫 What's NOT Included (By Design)
-
-- ❌ Real authentication/authorization
-- ❌ Real video streaming (mock placeholder)
-- ❌ AI discovery (hardcoded session)
-- ❌ Review system (out of scope)
-- ❌ Teacher dashboard
-- ❌ Database persistence
-- ❌ Blockchain UI/wallets
-
-## 🐛 Troubleshooting
-
-### Backend won't start
-- Check Python version: `python --version` (need 3.9+)
-- Install dependencies: `pip install -r requirements.txt`
-- Check if port 8000 is available
-
-### Frontend won't start
-- Check Node version: `node --version` (need 18+)
-- Delete `node_modules` and reinstall: `rm -rf node_modules && npm install`
-- Check if port 3000 is available
-
-### API calls failing
-- Verify Finternet base URL in `.env`
-- Check API key is correct
-- Ensure Finternet service is running
-- Check backend logs for error details
-
-### CORS errors
-- Ensure backend is running on port 8000
-- Check `NEXT_PUBLIC_API_URL` in `frontend/.env.local`
-
-## 📝 API Key
-
-Current API Key (Provided):
-```
-sk_hackathon_3eb5a79c271079186415ba4af695a130
 ```
 
 ## 🎓 Hardcoded Session

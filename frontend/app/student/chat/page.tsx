@@ -7,7 +7,7 @@ interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
-  timestamp: Date;
+  timestamp: string;
   sessionRecommendation?: any;
 }
 
@@ -31,7 +31,7 @@ export default function StudentChatPage() {
       role: 'assistant',
       content:
         "👋 Hi! I'm Murph, your AI learning guide. Tell me: what would you like to learn today? For example: 'I want to learn Python for college projects' or 'I need help with JavaScript basics'.",
-      timestamp: new Date(),
+      timestamp: new Date().toISOString(),
     },
   ]);
   const [inputValue, setInputValue] = useState('');
@@ -56,7 +56,7 @@ export default function StudentChatPage() {
       id: Date.now().toString(),
       role: 'user',
       content: inputValue,
-      timestamp: new Date(),
+      timestamp: new Date().toISOString(),
     };
 
     setMessages((prev) => [...prev, userMessage]);
@@ -81,7 +81,7 @@ export default function StudentChatPage() {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
         content: response.message,
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(),
         sessionRecommendation: response.sessionRecommendation,
       };
 
@@ -93,7 +93,7 @@ export default function StudentChatPage() {
         role: 'assistant',
         content:
           "Sorry, I encountered an error. Please try again or check if the backend is running.",
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(),
       };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {

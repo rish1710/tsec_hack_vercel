@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - GROK_API_KEY=${GROK_API_KEY}
+      - GROK_BASE_URL=${GROK_BASE_URL}
+      - GROK_MODEL=${GROK_MODEL}
+      - NEXT_PUBLIC_API_URL=http://localhost:3000
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm run dev

@@ -52,6 +52,7 @@ export default function Home() {
   // Hardcoded session details
   const SESSION_TITLE = 'Live Guitar Basics'
   const RATE_PER_MINUTE = 1.50
+  
   const MAX_LOCK = 30.00
 
   // Timer effect for active session

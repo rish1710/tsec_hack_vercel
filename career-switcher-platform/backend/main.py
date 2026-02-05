@@ -588,14 +588,19 @@ async def get_teacher_dashboard(video_id: str):
         sessions = []
         # Note: You'll need to add a method to get all sessions by video_id in firestore_service.py
         # For now, we'll construct KPIs from the analytics data
+        # Calculate earning potential (if all viewers watched full video at $0.50/min)
+        video_duration_minutes = 3  # 180 seconds = 3 minutes
+        earning_potential = analytics['total_sessions'] * (video_duration_minutes * 0.50)
+
         kpis = {
             "total_views": analytics['total_sessions'],
             "unique_students": analytics['unique_students'],
-            "total_watch_time_hours": analytics['total_watch_time_seconds'] / 3600,
+            "total_watch_time": analytics['total_watch_time_seconds'],  # Frontend expects seconds
             "total_earned": analytics['total_earnings'],
+            "earning_potential": round(earning_potential, 2),  # New KPI
             "avg_watch_time_minutes": analytics['avg_watch_time_seconds'] / 60,
             "completion_rate": analytics['avg_completion_rate'],
-            "avg_rating": analytics['avg_rating'],
+            "average_rating": analytics['avg_rating'],  # Frontend expects average_rating
             "total_feedback": analytics['total_feedback']
         }
         quiz_performance = {
@@ -731,17 +736,19 @@ async def get_student_reflection(request: StudentReflectionRequest):
     if not session:
         raise HTTPException(status_code=404, detail="Session not found")
 
-    # Prepare feedback data for reflection
-    feedback_data = {
-        "stars": session.get("feedback", {}).get("stars", 3),
-        "review": session.get("feedback", {}).get("review", ""),
-        "watch_time_seconds": session.get("elapsed_seconds", 0),
-        "video_duration_seconds": 180,  # 3 minutes
-        "quiz_scores": session.get("quiz_scores", [])
-    }
+    # Prepare data for reflection
+    watch_time_seconds = session.get("elapsed_seconds", 0)
+    watch_time_minutes = watch_time_seconds / 60
+    quiz_scores = session.get("quiz_scores", [])
+    video_duration_seconds = 180  # 3 minutes
+    completion_percentage = (watch_time_seconds / video_duration_seconds) * 100 if video_duration_seconds > 0 else 0
 
     # Generate reflection using LLM
-    reflection = generate_student_reflection(feedback_data)
+    reflection = generate_student_reflection(
+        watch_time_minutes=watch_time_minutes,
+        quiz_scores=quiz_scores,
+        completion_percentage=completion_percentage
+    )
 
     return {
         "success": True,

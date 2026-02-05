@@ -12,6 +12,10 @@ ENV/
 # Environment variables
 .env
 
+# Firebase credentials (use .env instead)
+*-firebase-adminsdk-*.json
+firebase-credentials*.json
+
 # IDE
 .vscode/
 .idea/

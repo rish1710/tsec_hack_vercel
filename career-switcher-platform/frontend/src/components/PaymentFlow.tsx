@@ -15,11 +15,11 @@ export default function PaymentFlow({ videoId, videoTitle, price, onPaymentCompl
   const [step, setStep] = useState<Step>('wallet')
   const [balance, setBalance] = useState<any>(null)
   const [cardData, setCardData] = useState({
-    cardNumber: '',
-    cardholderName: '',
-    expiryMonth: '',
-    expiryYear: '',
-    cvv: ''
+    cardNumber: '4532123456789012',
+    cardholderName: 'John Doe',
+    expiryMonth: '12',
+    expiryYear: '28',
+    cvv: '123'
   })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)

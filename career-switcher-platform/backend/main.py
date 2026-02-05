@@ -10,6 +10,9 @@ from dotenv import load_dotenv
 
 from finternet_service import FinternetService
 from video_session_manager import VideoSessionManager
+from dummy_data_generator import generate_dummy_sessions, generate_revenue_timeline
+from teacher_analytics import calculate_teacher_kpis, prepare_reviews_for_analysis, calculate_quiz_performance
+from llm_insights import generate_teacher_insights, generate_student_reflection
 
 # Load environment variables
 load_dotenv()
@@ -560,6 +563,190 @@ async def submit_feedback(request: FeedbackRequest):
         raise HTTPException(status_code=404, detail="Session not found")
 
     return {"success": True, "message": "Feedback recorded"}
+
+
+# ==================== TEACHER ANALYTICS ENDPOINTS ====================
+
+@app.get("/api/teacher/dashboard/{video_id}")
+async def get_teacher_dashboard(video_id: str):
+    """
+    Get teacher dashboard analytics for a specific video from Firestore
+    Returns KPIs: views, watch time, earnings, etc.
+    """
+    import firestore_service as fs
+
+    # Get analytics from Firestore
+    analytics = fs.get_video_analytics(video_id)
+
+    # If no data in Firestore, generate dummy data as fallback
+    if analytics['total_sessions'] == 0:
+        sessions = generate_dummy_sessions(video_id, num_sessions=50)
+        kpis = calculate_teacher_kpis(sessions)
+        quiz_performance = calculate_quiz_performance(sessions)
+    else:
+        # Get all sessions from Firestore
+        sessions = []
+        # Note: You'll need to add a method to get all sessions by video_id in firestore_service.py
+        # For now, we'll construct KPIs from the analytics data
+        kpis = {
+            "total_views": analytics['total_sessions'],
+            "unique_students": analytics['unique_students'],
+            "total_watch_time_hours": analytics['total_watch_time_seconds'] / 3600,
+            "total_earned": analytics['total_earnings'],
+            "avg_watch_time_minutes": analytics['avg_watch_time_seconds'] / 60,
+            "completion_rate": analytics['avg_completion_rate'],
+            "avg_rating": analytics['avg_rating'],
+            "total_feedback": analytics['total_feedback']
+        }
+        quiz_performance = {
+            "total_quizzes": 0,
+            "avg_score": 0.0
+        }
+
+    return {
+        "success": True,
+        "video_id": video_id,
+        "kpis": kpis,
+        "quiz_performance": quiz_performance
+    }
+
+
+@app.get("/api/teacher/video-revenue/{video_id}")
+async def get_video_revenue_timeline(video_id: str):
+    """
+    Get revenue timeline data for video visualization
+    Returns timestamp points with retention and earnings
+    """
+    timeline = generate_revenue_timeline(video_duration_seconds=180)
+
+    return {
+        "success": True,
+        "video_id": video_id,
+        "timeline": timeline
+    }
+
+
+@app.post("/api/teacher/generate-insights/{video_id}")
+async def generate_insights_for_video(video_id: str):
+    """
+    Generate AI insights from real Firestore reviews (button-triggered)
+    Returns strengths (from 4-5 star reviews) and improvements (from 1-3 star reviews)
+    """
+    try:
+        import firestore_service as fs
+
+        # Get all feedback from Firestore
+        all_feedback = fs.get_all_feedback_by_video(video_id)
+
+        if not all_feedback:
+            # Use dummy data if no real feedback exists
+            sessions = generate_dummy_sessions(video_id, num_sessions=50)
+            reviews = prepare_reviews_for_analysis(sessions)
+        else:
+            # Separate positive and negative reviews
+            positive_reviews = [f["review"] for f in all_feedback if f["stars"] >= 4 and f["review"]]
+            negative_reviews = [f["review"] for f in all_feedback if f["stars"] <= 3 and f["review"]]
+            reviews = {"positive": positive_reviews, "negative": negative_reviews}
+
+        # Generate insights using LLM
+        insights = generate_teacher_insights(
+            positive_reviews=reviews["positive"],
+            negative_reviews=reviews["negative"]
+        )
+
+        return {
+            "success": True,
+            "video_id": video_id,
+            "insights": insights,
+            "review_counts": {
+                "positive": len(reviews["positive"]),
+                "negative": len(reviews["negative"]),
+                "total": len(all_feedback) if isinstance(all_feedback, list) else 0
+            },
+            "using_real_data": len(all_feedback) > 0 if isinstance(all_feedback, list) else False
+        }
+    except Exception as e:
+        print(f"Error generating insights: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/teacher/smart-reviews/{video_id}")
+async def get_smart_reviews(video_id: str):
+    """
+    Get smart review table with AI classifications
+    """
+    try:
+        import firestore_service as fs
+        from smart_review_analyzer import bulk_classify_reviews
+
+        # Get all feedback from Firestore
+        all_feedback = fs.get_all_feedback_by_video(video_id)
+
+        if not all_feedback:
+            # Use dummy data if no real feedback
+            sessions = generate_dummy_sessions(video_id, num_sessions=50)
+            all_feedback = []
+            for session in sessions:
+                if session.get("feedback"):
+                    all_feedback.append({
+                        "session_id": session["session_id"],
+                        "student_id": session["student_id"],
+                        "video_id": video_id,
+                        "stars": session["feedback"]["stars"],
+                        "review": session["feedback"].get("review", ""),
+                        "watch_time_seconds": session["watch_time_seconds"],
+                        "quiz_scores": session.get("quiz_scores", []),
+                        "submitted_at": session.get("created_at", ""),
+                        "amount_charged": session["amount_charged"]
+                    })
+
+        # Add AI classifications
+        enhanced_reviews = bulk_classify_reviews(all_feedback)
+
+        return {
+            "success": True,
+            "video_id": video_id,
+            "reviews": enhanced_reviews,
+            "total_reviews": len(enhanced_reviews)
+        }
+    except Exception as e:
+        print(f"Error getting smart reviews: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ==================== STUDENT REFLECTION ENDPOINT ====================
+
+class StudentReflectionRequest(BaseModel):
+    session_id: str
+
+
+@app.post("/api/student/reflection")
+async def get_student_reflection(request: StudentReflectionRequest):
+    """
+    Generate personalized AI reflection for student after feedback submission
+    """
+    # Get session data
+    session = session_manager.get_session(request.session_id)
+
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+
+    # Prepare feedback data for reflection
+    feedback_data = {
+        "stars": session.get("feedback", {}).get("stars", 3),
+        "review": session.get("feedback", {}).get("review", ""),
+        "watch_time_seconds": session.get("elapsed_seconds", 0),
+        "video_duration_seconds": 180,  # 3 minutes
+        "quiz_scores": session.get("quiz_scores", [])
+    }
+
+    # Generate reflection using LLM
+    reflection = generate_student_reflection(feedback_data)
+
+    return {
+        "success": True,
+        "reflection": reflection
+    }
 
 
 if __name__ == "__main__":

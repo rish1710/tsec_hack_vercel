@@ -1,0 +1,270 @@
+{
+  "videos": [
+    {
+      "id": "vid001",
+      "title": "Web Development to AI/ML - Complete Beginner's Guide",
+      "description": "Start your AI/ML journey from scratch. Learn Python basics, introduction to machine learning concepts, and build your first simple ML model.",
+      "category": "AI/ML",
+      "transcript": "[Transcript to be added]",
+      "duration": "3h 15m",
+      "keywords": [
+        "web developer",
+        "web development",
+        "frontend",
+        "backend",
+        "javascript",
+        "ai",
+        "ml",
+        "machine learning",
+        "beginner",
+        "python basics",
+        "intro to ai",
+        "first ml model"
+      ],
+      "video_link": "https://example.com/webdev-to-aiml"
+    },
+    {
+      "id": "vid002",
+      "title": "Deep Learning for Web Developers",
+      "description": "Advanced AI/ML course covering neural networks, deep learning, TensorFlow, and PyTorch. Build real-world AI applications.",
+      "category": "AI/ML",
+      "transcript": "[Transcript to be added]",
+      "duration": "5h 30m",
+      "keywords": [
+        "web developer",
+        "web development",
+        "javascript",
+        "ai",
+        "ml",
+        "machine learning",
+        "deep learning",
+        "neural networks",
+        "tensorflow",
+        "pytorch",
+        "advanced",
+        "intermediate"
+      ],
+      "video_link": "https://example.com/webdev-to-aiml"
+    },
+    {
+      "id": "vid003",
+      "title": "Natural Language Processing for Developers",
+      "description": "Specialized AI/ML course focused on NLP. Learn text processing, sentiment analysis, chatbots, and language models.",
+      "category": "AI/ML",
+      "transcript": "[Transcript to be added]",
+      "duration": "4h 45m",
+      "keywords": [
+        "web developer",
+        "ai",
+        "ml",
+        "machine learning",
+        "nlp",
+        "natural language processing",
+        "chatbot",
+        "text analysis",
+        "language models",
+        "specialized",
+        "intermediate"
+      ],
+      "video_link": "https://example.com/webdev-to-aiml"
+    },
+    {
+      "id": "vid004",
+      "title": "Computer Vision & Image Recognition Mastery",
+      "description": "Master computer vision and image recognition. Build image classifiers, object detection systems, and visual AI applications.",
+      "category": "AI/ML",
+      "transcript": "[Transcript to be added]",
+      "duration": "5h 00m",
+      "keywords": [
+        "web developer",
+        "ai",
+        "ml",
+        "machine learning",
+        "computer vision",
+        "image recognition",
+        "opencv",
+        "cnn",
+        "object detection",
+        "advanced",
+        "specialized"
+      ],
+      "video_link": "https://example.com/webdev-to-aiml"
+    },
+    {
+      "id": "vid005",
+      "title": "Graphic Design to UX - Beginner's Bootcamp",
+      "description": "Perfect introduction to UX for graphic designers. Learn user research basics, wireframing fundamentals, and UX principles.",
+      "category": "UX/Product",
+      "transcript": "[Transcript to be added]",
+      "duration": "2h 30m",
+      "keywords": [
+        "graphic designer",
+        "graphic design",
+        "visual design",
+        "designer",
+        "creative",
+        "ux",
+        "ui",
+        "beginner",
+        "user research",
+        "wireframing",
+        "ux basics",
+        "design fundamentals"
+      ],
+      "video_link": "https://example.com/design-to-ux-product"
+    },
+    {
+      "id": "vid006",
+      "title": "Advanced UX/UI & Product Design Strategy",
+      "description": "Master advanced UX/UI concepts, product strategy, user testing, and design systems. Lead product design initiatives.",
+      "category": "UX/Product",
+      "transcript": "[Transcript to be added]",
+      "duration": "4h 15m",
+      "keywords": [
+        "graphic designer",
+        "designer",
+        "ux",
+        "ui",
+        "product design",
+        "product strategy",
+        "user testing",
+        "design systems",
+        "advanced",
+        "product manager",
+        "design leadership"
+      ],
+      "video_link": "https://example.com/design-to-ux-product"
+    },
+    {
+      "id": "vid007",
+      "title": "UX Research & User Psychology Deep Dive",
+      "description": "Specialized course in UX research methodologies, user psychology, behavioral design, and data-driven design decisions.",
+      "category": "UX/Product",
+      "transcript": "[Transcript to be added]",
+      "duration": "3h 45m",
+      "keywords": [
+        "designer",
+        "ux",
+        "ux research",
+        "user research",
+        "user psychology",
+        "behavioral design",
+        "research methods",
+        "user testing",
+        "specialized",
+        "intermediate"
+      ],
+      "video_link": "https://example.com/design-to-ux-product"
+    },
+    {
+      "id": "vid008",
+      "title": "Product Management for Designers",
+      "description": "Transition from design to product management. Learn product roadmaps, stakeholder management, and strategic product thinking.",
+      "category": "UX/Product",
+      "transcript": "[Transcript to be added]",
+      "duration": "3h 30m",
+      "keywords": [
+        "designer",
+        "graphic designer",
+        "product manager",
+        "product management",
+        "product design",
+        "product strategy",
+        "roadmap",
+        "stakeholder management",
+        "intermediate",
+        "career transition"
+      ],
+      "video_link": "https://example.com/design-to-ux-product"
+    },
+    {
+      "id": "vid009",
+      "title": "Sales/Marketing to Data Analyst - Beginner's Path",
+      "description": "Start your data analytics journey. Master Excel, basic SQL, data visualization fundamentals, and business reporting.",
+      "category": "Data Analytics",
+      "transcript": "[Transcript to be added]",
+      "duration": "3h 00m",
+      "keywords": [
+        "sales",
+        "marketing",
+        "business",
+        "analyst",
+        "data analyst",
+        "beginner",
+        "excel",
+        "sql basics",
+        "data visualization",
+        "business reporting",
+        "analytics basics"
+      ],
+      "video_link": "https://example.com/sales-marketing-to-analyst"
+    },
+    {
+      "id": "vid010",
+      "title": "Advanced Business Intelligence & Analytics",
+      "description": "Advanced analytics with Tableau, Power BI, advanced SQL, and statistical analysis. Build comprehensive BI dashboards.",
+      "category": "Data Analytics",
+      "transcript": "[Transcript to be added]",
+      "duration": "5h 15m",
+      "keywords": [
+        "sales",
+        "marketing",
+        "business",
+        "analyst",
+        "data analyst",
+        "business analyst",
+        "advanced",
+        "tableau",
+        "power bi",
+        "sql",
+        "business intelligence",
+        "dashboards"
+      ],
+      "video_link": "https://example.com/sales-marketing-to-analyst"
+    },
+    {
+      "id": "vid011",
+      "title": "Python for Data Analysis & Automation",
+      "description": "Learn Python for data analysis, pandas, NumPy, data cleaning, and automation of sales/marketing analytics workflows.",
+      "category": "Data Analytics",
+      "transcript": "[Transcript to be added]",
+      "duration": "4h 30m",
+      "keywords": [
+        "sales",
+        "marketing",
+        "analyst",
+        "data analyst",
+        "python",
+        "pandas",
+        "data analysis",
+        "automation",
+        "intermediate",
+        "programming",
+        "analytics"
+      ],
+      "video_link": "https://example.com/sales-marketing-to-analyst"
+    },
+    {
+      "id": "vid012",
+      "title": "Predictive Analytics & Machine Learning for Business",
+      "description": "Apply ML to business problems. Learn predictive modeling, customer analytics, forecasting, and ML-driven insights.",
+      "category": "Data Analytics",
+      "transcript": "[Transcript to be added]",
+      "duration": "5h 00m",
+      "keywords": [
+        "sales",
+        "marketing",
+        "business",
+        "analyst",
+        "data analyst",
+        "machine learning",
+        "predictive analytics",
+        "forecasting",
+        "customer analytics",
+        "advanced",
+        "ml for business"
+      ],
+      "video_link": "https://example.com/sales-marketing-to-analyst"
+    }
+  ]
+}
